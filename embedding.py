@@ -15,20 +15,27 @@ def predict(text):
 
 sentence1 = "There was a fly drinking from my soup." 
 sentence2 = "to become a comercial pilot he had to fly 100 hours."
-sentence3 = "a fly sat on my leg today, i was very anoyyed."
+sentence3 = "I found a fly in my room today."
+# "a fly sat on my leg today, i was very anoyyed."
 
 
 token1 =tokenizer.tokenize(sentence1)
 token2 =tokenizer.tokenize(sentence2)
+token3 =tokenizer.tokenize(sentence3)
 
 out1=predict(sentence1)
 out2=predict(sentence2)
+out3=predict(sentence3)
 
 emb1 = out1[0:,token1.index("fly"),:].detach()
 emb2 = out2[0:,token2.index("fly"),:].detach()
+emb3 = out3[0:,token3.index("fly"),:].detach()
 
 emb1.shape
 emb2.shape
 
-cosine(emb1,emb2)
-np.sqrt(np.sum())
+dist1 = cosine(np.squeeze(emb1.numpy()),np.squeeze(emb2.numpy()))
+dist2 = cosine(np.squeeze(emb1.numpy()),np.squeeze(emb3.numpy()))
+dist3 = cosine(np.squeeze(emb2.numpy()),np.squeeze(emb3.numpy()))
+
+print(dist1,dist2,dist3)
