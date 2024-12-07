@@ -31,11 +31,10 @@ emb1 = out1[0:,token1.index("fly"),:].detach()
 emb2 = out2[0:,token2.index("fly"),:].detach()
 emb3 = out3[0:,token3.index("fly"),:].detach()
 
-emb1.shape
-emb2.shape
-
 dist1 = cosine(np.squeeze(emb1.numpy()),np.squeeze(emb2.numpy()))
 dist2 = cosine(np.squeeze(emb1.numpy()),np.squeeze(emb3.numpy()))
 dist3 = cosine(np.squeeze(emb2.numpy()),np.squeeze(emb3.numpy()))
 
-print(dist1,dist2,dist3)
+print("-Fly- embeding tensor difference in two sentences with different context (verb and noun):",dist1)
+print("-Fly- embeding tensor difference in two sentences with same context (noun and noun):",dist2)
+print("-Fly- embeding tensor difference in two sentences with different context (verb and noun):",dist3)
