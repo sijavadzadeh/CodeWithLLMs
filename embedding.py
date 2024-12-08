@@ -38,3 +38,38 @@ dist3 = cosine(np.squeeze(emb2.numpy()),np.squeeze(emb3.numpy()))
 print("-Fly- embeding tensor difference in two sentences with different context (verb and noun):",dist1)
 print("-Fly- embeding tensor difference in two sentences with same context (noun and noun):",dist2)
 print("-Fly- embeding tensor difference in two sentences with different context (verb and noun):",dist3)
+
+# subtractions in embedding space
+
+
+sentence4 = "The queen has the power in case king is not available."
+sentence5 = "my uncle was arguing with my aunt over dinner."
+
+token4 = tokenizer.tokenize(sentence4)
+token5 = tokenizer.tokenize(sentence5)
+
+out4=predict(sentence4)
+out5=predict(sentence5)
+
+embking = out4[0:,token4.index("queen"),:].detach()
+embqueen = out4[0:,token4.index("king"),:].detach()
+
+embuncle= out5[0:,token5.index("uncle"),:].detach()
+embaunt = out5[0:,token5.index("aunt"),:].detach()
+
+dist4 = cosine(np.squeeze(embking.numpy()),np.squeeze(embqueen.numpy()))
+dist5 = cosine(np.squeeze(embking.numpy()),np.squeeze(embuncle.numpy()))
+
+print("distance of king and queen: ", dist4)
+print("distance of king and uncle: ", dist5)
+
+dist4 = cosine(np.squeeze(embaunt.numpy()),np.squeeze(embqueen.numpy()))
+dist5 = cosine(np.squeeze(embaunt.numpy()),np.squeeze(embuncle.numpy()))
+
+print("distance of aunt and queen: ", dist4)
+print("distance of aunt and uncle: ", dist5)
+
+dist4 = cosine(np.squeeze(embuncle.numpy()) -np.squeeze(embaunt.numpy()),
+               np.squeeze(embking.numpy())-np.squeeze(embqueen.numpy()))
+
+print("distance of sex difference ", dist4)
