@@ -9,7 +9,7 @@ model = AutoModelForMaskedLM.from_pretrained(model_name)
 
 mask = tokenizer.mask_token
 
-sentence= f"I want to {mask} pizza for tonight."
+sentence= f"I {mask} to have pizza for tonight."
 
 tokens = tokenizer.tokenize(sentence)
 
@@ -21,11 +21,9 @@ logits = outputs.logits.detach().numpy()[0]
 mask_logits = logits[tokens.index(mask)+1]
 confidence_scores = softmax(mask_logits)
 
-for i in np.argsort(confidence_scores)[::-1][:5]:
+for i in np.argsort(confidence_scores)[::-1][:10]:
     pred_token = tokenizer.decode(i)
     score = confidence_scores[i]
-
     print(pred_token, score) 
-
     print(sentence.replace(mask,pred_token),score)
 
