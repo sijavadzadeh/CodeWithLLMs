@@ -12,13 +12,19 @@ passage_embeddings[0].shape
 
 query = "Find me some articles about technology and artificial inteligence"
 
-query_embedding = model.encode(query)
+def find_relevant_news(query:str):
+    query_embedding = model.encode(query)
 
-similarities = util.cos_sim(query_embedding,passage_embeddings)
+    similarities = util.cos_sim(query_embedding,passage_embeddings)
 
-top_indices = torch.topk(similarities.flatten(),k=3).indices
+    top_indices = torch.topk(similarities.flatten(),k=3).indices
 
-top_relevant_passages=[df.iloc[x.item()]['summary'][:200] + "..." for x in top_indices]
+    top_relevant_passages=[df.iloc[x.item()]['summary'][:200] + "..." for x in top_indices]
+    return top_relevant_passages
+
+find_relevant_news("natural disasters")
+find_relevant_news("law enforcement")
+find_relevant_news("politics and diplomacy")
 
 
 
